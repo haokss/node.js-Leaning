@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      .mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9998; /* 设置 z-index，保证遮罩层在登陆框下方 */
+      }   
+      .login-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        display: none;
+        text-align: center;
+        z-index: 9999; /* 设置 z-index，保证登陆框在遮罩层上方 */
+      }
+    
+      .form-group {
+        margin: 10px 0;
+        text-align: left;
+      }
+    
+      label {
+        display: inline-block;
+        width: 60px;
+        font-weight: bold;
+      }
+    
+      input {
+        width: 200px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+    
+      button[type="submit"] {
+        width: 100%;
+        margin: 10px 0;
+        padding: 8px;
+        background-color: #1E90FF;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    
+      .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #1E90FF;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+    <button id="login-btn">登陆</button>
+
+    <!-- 遮罩层和登陆框 -->
+    <div id="mask" class="mask"></div>
+    <div id="login-box" class="login-box">
+      <h2>用户登录</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">账号：</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">密码：</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">登录</button>
+
+      </form>
+      <button id="close-btn" class="close-btn">X</button>
+    </div>
+    
+    <!-- CSS 样式 -->
+
+    
+    <!-- JavaScript 代码 -->
+    <script>
+      const loginBtn = document.getElementById('login-btn');
+      const mask = document.getElementById('mask');
+      const loginBox = document.getElementById('login-box');
+      const closeBtn = document.getElementById('close-btn');
+      const loginForm = document.getElementById('login-form');
+      
+      loginBtn.addEventListener('click', () => {
+        mask.style.display = 'block';
+        loginBox.style.display = 'block';
+      });
+      
+      closeBtn.addEventListener('click', () => {
+        mask.style.display = 'none';
+        loginBox.style.display = 'none';
+      });
+      
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(loginForm);
+        const username = formData.get('username');
+        const password = formData.get('password');
+        const data = {
+                username: username,
+                password: password
+        };
+        // 处理登陆逻辑
+        $.ajax({
+                type:'POST',
+                url:'http://127.0.0.1:8080/api/login',
+                data:data,
+                // contentType:'application/x-www-form-urlencoded',//设置请求头
+                success: function(res){
+                    const token = res.token
+                    console.log('get token')
+                    localStorage.setItem('token',token)
+                    mask.style.display = 'none'
+                    loginBox.style.display = 'none'
+                },
+                error:function(err){
+                  console.log('login error',err)
+                }
+            })
+        
+      });
+    </script>
+</body>
+</html>

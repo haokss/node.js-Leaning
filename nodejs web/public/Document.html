@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)http://127.0.0.1:5500/public/practice.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+        }
+        .header {
+            position: fixed;
+            /* background-size: cover; */
+            top: 0px;
+            padding: 20px;
+            display: flex;
+            border-radius: 5px;      
+            padding-left: 1300px;
+            height: 40px;
+            width: 100%;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            background-color: rgba(255,255,255,0.9);
+            z-index: 999;
+            /* top: -20px; */
+            transition: top 0.3s;
+        }
+        .body{
+            background-image: url('bg.html'); /* 背景图片*/
+        }
+        .content{
+            width: 1000px;
+            height: 3000px;
+            background-color: coral;
+            margin: 0 auto;
+            margin-top: 80px;
+            z-index: 0;
+        }
+        .container {
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translate(-50%);
+            width: 400px;
+            height: 200px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            z-index: 2;
+            display: none;
+            top: 25%;
+        }
+        #login-form {
+          background-color: #fff;
+          padding: 24px;
+          border-radius: 8px;
+          box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+          border-radius: 8px;
+         
+        }
+    
+        input[type="text"],
+        input[type="password"] {
+          display: block;
+          width: 100%;
+          padding: 12px;
+          margin-bottom: 24px;
+          font-size: 16px;
+          color: #444;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+        }
+        button {
+          display: block;
+          width: 100%;
+          padding: 12px;
+          font-size: 16px;
+          color: #fff;
+          background-color: #007bff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        button:hover {
+          background-color: #0069d9;
+        }
+    
+        button:active {
+          background-color: #005cbf;
+        }
+        #close-btn {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        padding: 0px;
+        font-size: 24px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        }
+        #close-btn:hover {
+            color: #e0111f;
+        }
+    </style>
+</head>
+<body class="body">
+    
+    <div class="header">
+        <div>
+            <button class="login" id="login">Login</button>
+            
+        </div>
+        
+
+    </div>
+    <div class="content">
+    <div class="container" style="display: block;">
+        <form id="login-form">
+            <button id="close-btn" type="button" style="
+    width: 30px;
+    height: 30px;
+    top: -10;
+    top: -10;
+    right: -10;
+    right: -10;
+    bottom: 130px;
+    left: 370px;
+    top: 0px;
+">×</button>
+            <input type="text" id="username" name="username" placeholder="请输入账号" required="">
+            <br>
+            <input type="password" id="password" name="password" placeholder="密码" required="">
+            <!-- 将type="submit"将导致无法接收到数据的bug -->
+            <button type="button" id="btnPOST">登陆</button>
+        </form>
+    </div>
+        
+    </div>
+    <script>
+        
+        const login = document.getElementById('login')
+        const container = document.querySelector('.container')
+        const closeBtn = document.getElementById('close-btn')
+        // const btnPOST = document.getElementById('btnPOST')
+        login.addEventListener('click',function(){
+            container.style.display = 'block'
+
+        })
+        closeBtn.addEventListener('click', function() {
+            container.style.display = 'none'
+        })
+        // btnPOST.addEventListener('click', function() {
+        // // 隐藏container
+        //     container.style.display = 'none'
+        // })
+
+        var prevScrollPos = window.pageYOffset; /* 记录上次滚动的位置 */
+        var isHidden = false; /* 是否隐藏header */
+        var scrollThreshold_down = 5; /* 滚动阈值，自定义 */
+        var scrollThreshold_up = 8;
+
+        window.addEventListener("scroll", function() {
+        var currentScrollPos = window.pageYOffset;
+        var deltaScroll = currentScrollPos - prevScrollPos;
+        var header = document.querySelector(".header");
+
+        if (deltaScroll > scrollThreshold_down && !isHidden) { /* 向下滚动超过滚动阈值，且header未被隐藏 */
+            header.style.top = "-80px"; /* 隐藏header */
+            isHidden = true;
+        } else if (deltaScroll < -scrollThreshold_up && isHidden) { /* 向上滚动超过滚动阈值，且header已被隐藏 */
+            header.style.top = "0px"; /* 显示header */
+            isHidden = false;
+        }
+
+        prevScrollPos = currentScrollPos;
+    });
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>

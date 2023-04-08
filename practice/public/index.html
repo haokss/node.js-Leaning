@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>haoks'web</title>
+    <style>
+        .box{
+            width: 600px;
+            margin: 50px auto;
+            display: flex;
+            font-size: 25px;
+            line-height: 40px;
+        }
+        .sure{
+            width: 200px;
+            height: 50px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>这是一个简单的页面</h1>
+    <span>hello world</span>
+    <hr>
+    <div class="box">
+        <span style="display: flex;">随机点名：</span>
+        <div class="nv"></div>
+    </div>
+        <button class="sure">抽取</button>
+    <script>
+        function getRandomIntInclusive(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min; //含最大值，含最小值
+        }
+     
+        const btn1=document.querySelector('.sure')
+        btn1.addEventListener('click',function(){
+            let roommates =['王欢','刘飞杨','刘恒宇','王伊彬','王相华','王鹤凯']    
+            const div = document.querySelector('div.nv')
+            let janme_num=getRandomIntInclusive(0,roommates.length-1)
+            console.log(janme_num)
+            console.log(div)
+            console.log(roommates[janme_num])
+            div.innerHTML = roommates[janme_num]
+        })
+        //间歇函数
+        // setInterval(() => {
+        //     console.log('hello')
+        // }, 1000);
+    </script>
+</body>
+</html>
